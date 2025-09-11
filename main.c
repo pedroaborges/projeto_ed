@@ -1,9 +1,10 @@
 #include <stdio.h>
 #define MAX 100
 
-
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Structs
+
 typedef struct {
     int id;
     char name[50];
@@ -26,6 +27,8 @@ typedef struct {
     struct Doctor *prox;
 } Doctor;
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Structs Stack, Queue and List
 typedef struct {
     Patient patients[MAX];
@@ -44,22 +47,38 @@ typedef struct {
     Doctor *start;
 } DoctorList;
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Functions
+
 void insertPatient(){}
+
 void servePatient(){}
+
 void consultPatient(){}
+
 void displayPatients(){}
+
 void countPatients(){}
+
 void insertMr(){}
+
 void removeMr(){}
+
 void consultLastMr(){}
+
 void displayMr(){}
+
 void reverseMr(){}
+
 void insertDoctor(){}
+
 void removeDoctor(){}
+
 void searchDoctor(){}
+
 void displayDoctors(){}
+
 void searchSpecDoctor(){}
 
 void menu(){
@@ -220,6 +239,8 @@ void menu(){
 
 
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 int main(){
     menu();
