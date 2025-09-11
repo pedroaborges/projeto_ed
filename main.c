@@ -1,5 +1,51 @@
 #include <stdio.h>
+#define MAX 100
 
+
+
+//Structs
+typedef struct {
+    int id;
+    char name[50];
+    int priority; 
+    char symptoms[100];
+} Patient;
+
+typedef struct {
+    int id;              
+    char patientName[50]; 
+    char diagnosis[100]; 
+    char treatment[100];
+} MedicalRecord;
+
+typedef struct {
+    int id;                
+    char name[50];        
+    char specialty[50];
+    int experience;       
+    struct Doctor *prox;
+} Doctor;
+
+//Structs Stack, Queue and List
+typedef struct {
+    Patient patients[MAX];
+    int front;
+    int rear;
+    int count;
+} PatientQueue;
+
+
+typedef struct {
+    MedicalRecord records[MAX];
+    int top;
+} MedicalRecordStack;
+
+typedef struct {
+    Doctor *start;
+} DoctorList;
+
+
+//Functions
 void insertPatient(){}
 void servePatient(){}
 void consultPatient(){}
