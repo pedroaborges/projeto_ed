@@ -24,7 +24,7 @@ typedef struct {
     char name[50];        
     char specialty[50];
     int experience;       
-    struct Doctor *prox;
+    struct Doctor *next;
 } Doctor;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,37 +49,276 @@ typedef struct {
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//Functions base data structs 
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Queue functions
+
+// Initialize the queue
+void initializePatientQueue(PatientQueue *q) {
+    q->front = 0;
+    q->rear = 0;
+    q->count = 0;
+}
+
+// Verify if is empty
+int isPatientQueueEmpty(PatientQueue *q) {
+    return (q->count == 0);
+}
+
+// Verify if is full
+int isPatientQueueFull(PatientQueue *q) {
+    return (q->count == MAX);
+}
+
+// Insert patient (enqueue)
+int insertPatient(PatientQueue *q, Patient p) {
+    if (isPatientQueueFull(q)) {
+        printf("Erro: fila de pacientes cheia!\n");
+        return 0;
+    }
+    q->patients[q->rear] = p;
+    q->rear = (q->rear + 1) % MAX;
+    q->count++;
+    return 1;
+}
+
+// assists patient (dequeue)
+int servePatient(PatientQueue *q, Patient *p) {
+    if (isPatientQueueEmpty(q)) {
+        printf("Erro: fila de pacientes vazia!\n");
+        return 0;
+    }
+    *p = q->patients[q->front];
+    q->front = (q->front + 1) % MAX;
+    q->count--;
+    return 1;
+}
+
+// Consult first patient
+int consultPatient(PatientQueue *q, Patient *p) {
+    if (isPatientQueueEmpty(q)) {
+        printf("Fila de pacientes vazia!\n");
+        return 0;
+    }
+    *p = q->patients[q->front];
+    return 1;
+}
+
+// display all patients
+void displayPatients(PatientQueue *q) {
+    if (isPatientQueueEmpty(q)) {
+        printf("Nenhum paciente na fila.\n");
+        return;
+    }
+
+    printf("\n--- Fila de Pacientes ---\n");
+    for (int i = 0; i < q->count; i++) {
+        int index = (q->front + i) % MAX;
+        printf("ID: %d | Nome: %s | Prioridade: %d | Sintomas: %s\n",
+               q->patients[index].id,
+               q->patients[index].name,
+               q->patients[index].priority,
+               q->patients[index].symptoms);
+    }
+}
+
+// extra: critic patients
+int countCriticalPatients(PatientQueue *q) {
+    if (isPatientQueueEmpty(q)) {
+        return 0;
+    }
+
+    int count = 0;
+    for (int i = 0; i < q->count; i++) {
+        int index = (q->front + i) % MAX;
+        if (q->patients[index].priority == 3) { // supondo que prioridade 3 seja crítico
+            count++;
+        }
+    }
+    return count;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// stack functions
+
+// Inicialize stack
+void initializeMedicalRecordStack(MedicalRecordStack *s) {
+    s->top = -1;
+}
+
+// Verify if is empty
+int isMedicalRecordStackEmpty(MedicalRecordStack *s) {
+    return (s->top == -1);
+}
+
+// Verifica if is full
+int isMedicalRecordStackFull(MedicalRecordStack *s) {
+    return (s->top == MAX - 1);
+}
+
+// Insert medical record (push)
+int insertMr(MedicalRecordStack *s, MedicalRecord r) {
+    if (isMedicalRecordStackFull(s)) {
+        printf("Erro: pilha de prontuários cheia!\n");
+        return 0;
+    }
+    s->records[++(s->top)] = r;
+    return 1;
+}
+
+// Remove medical record (pop)
+int removeMr(MedicalRecordStack *s, MedicalRecord *r) {
+    if (isMedicalRecordStackEmpty(s)) {
+        printf("Erro: pilha de prontuários vazia!\n");
+        return 0;
+    }
+    *r = s->records[(s->top)--];
+    return 1;
+}
+
+// Consult last medical record (top)
+int consultLastMr(MedicalRecordStack *s, MedicalRecord *r) {
+    if (isMedicalRecordStackEmpty(s)) {
+        printf("Nenhum prontuário na pilha!\n");
+        return 0;
+    }
+    *r = s->records[s->top];
+    return 1;
+}
+
+// display all medical records
+void displayMr(MedicalRecordStack *s) {
+    if (isMedicalRecordStackEmpty(s)) {
+        printf("Nenhum prontuário armazenado.\n");
+        return;
+    }
+
+    printf("\n--- Pilha de Prontuários ---\n");
+    for (int i = s->top; i >= 0; i--) {
+        printf("ID: %d | Paciente: %s | Diagnóstico: %s | Tratamento: %s\n",
+               s->records[i].id,
+               s->records[i].patientName,
+               s->records[i].diagnosis,
+               s->records[i].treatment);
+    }
+}
+
+// Extra: invert stack
+void reverseMr(MedicalRecordStack *s) {
+    if (isMedicalRecordStackEmpty(s)) {
+        printf("A pilha está vazia, não pode ser invertida.\n");
+        return;
+    }
+    int i = 0, j = s->top;
+    while (i < j) {
+        MedicalRecord temp = s->records[i];
+        s->records[i] = s->records[j];
+        s->records[j] = temp;
+        i++;
+        j--;
+    }
+    printf("A pilha foi invertida!\n");
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// list functions
+
+// Inicialize list doctors
+void initializeDoctorList(DoctorList *list) {
+    list->start = NULL;
+}
+
+// Insert doctor in the begin
+void insertDoctor(DoctorList *list, Doctor d) {
+    Doctor *newDoctor = (Doctor*)malloc(sizeof(Doctor));
+    *newDoctor = d;
+    newDoctor->next = list->start;
+    list->start = newDoctor;
+    printf("Médico inserido com sucesso!\n");
+}
+
+// Remove doctor with id
+int removeDoctor(DoctorList *list, int id) {
+    Doctor *current = list->start;
+    Doctor *prev = NULL;
+
+    while (current != NULL && current->id != id) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Médico com ID %d não encontrado.\n", id);
+        return 0;
+    }
+
+    if (prev == NULL) { // remove in the begin
+        list->start = current->next;
+    } else {
+        prev->next = current->next;
+    }
+
+    free(current);
+    printf("Médico removido com sucesso!\n");
+    return 1;
+}
+
+// search doctor (id)
+Doctor* searchDoctor(DoctorList *list, int id) {
+    Doctor *current = list->start;
+    while (current != NULL) {
+        if (current->id == id) {
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+// display all doctors
+void displayDoctors(DoctorList *list) {
+    if (list->start == NULL) {
+        printf("Nenhum médico cadastrado.\n");
+        return;
+    }
+
+    printf("\n--- Lista de Médicos ---\n");
+    Doctor *current = list->start;
+    while (current != NULL) {
+        printf("ID: %d | Nome: %s | Especialidade: %s | Experiência: %d anos\n",
+               current->id,
+               current->name,
+               current->specialty,
+               current->experience);
+        current = current->next;
+    }
+}
+
+// Extra: search doctor specialty
+void searchSpecDoctor(DoctorList *list, char *specialty) {
+    int found = 0;
+    Doctor *current = list->start;
+    while (current != NULL) {
+        if (strcmp(current->specialty, specialty) == 0) {
+            printf("ID: %d | Nome: %s | Especialidade: %s | Experiência: %d anos\n",
+                   current->id,
+                   current->name,
+                   current->specialty,
+                   current->experience);
+            found = 1;
+        }
+        current = current->next;
+    }
+    if (!found) {
+        printf("Nenhum médico encontrado com a especialidade: %s\n", specialty);
+    }
+}
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Functions
-
-void insertPatient(){}
-
-void servePatient(){}
-
-void consultPatient(){}
-
-void displayPatients(){}
-
-void countPatients(){}
-
-void insertMr(){}
-
-void removeMr(){}
-
-void consultLastMr(){}
-
-void displayMr(){}
-
-void reverseMr(){}
-
-void insertDoctor(){}
-
-void removeDoctor(){}
-
-void searchDoctor(){}
-
-void displayDoctors(){}
-
-void searchSpecDoctor(){}
 
 void menu(){
     int option = -1;
