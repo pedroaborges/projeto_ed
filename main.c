@@ -489,7 +489,7 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         scanf(" %[^\n]", newRecord.patientName);
 
                         printf("\nDigite o diagnostico do paciente: ");
-                        scanf(" %[^\n]", &newRecord.diagnosis);
+                        scanf(" %[^\n]", newRecord.diagnosis);
 
                         printf("\nDigite o tratamento: ");
                         scanf(" %[^\n]", newRecord.treatment);
@@ -558,7 +558,7 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         scanf(" %[^\n]", newDoctor.name);
 
                         printf("\nDigite a especialidade do medico: ");
-                        scanf(" %[^\n]", &newDoctor.specialty);
+                        scanf(" %[^\n]", newDoctor.specialty);
 
                         printf("\nDigite os anos de experiencia do medico: ");
                         scanf("%d", &newDoctor.experience);
