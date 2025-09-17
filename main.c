@@ -163,7 +163,6 @@ int countCriticalPatients(PatientQueue *q) {
 }
 
 //complement #1
-
 int searchPatientByName(PatientQueue *q, char *nameToSearch) {
     if (isPatientQueueEmpty(q)) {
         printf("Fila de pacientes vazia!\n");
@@ -175,7 +174,6 @@ int searchPatientByName(PatientQueue *q, char *nameToSearch) {
 
     for (int i = 0; i < q->count; i++) {
         int index = (q->front + i) % MAX;
-        // strstr retorna um ponteiro para a primeira ocorrência da substring, ou NULL se não encontrada
         if (strstr(q->patients[index].name, nameToSearch) != NULL) {
             printf("ID: %d | Nome: %s | Prioridade: %d | Sintomas: %s\n",
                    q->patients[index].id,
@@ -190,6 +188,31 @@ int searchPatientByName(PatientQueue *q, char *nameToSearch) {
         printf("Nenhum paciente encontrado.\n");
     }
     return found;
+}
+
+
+//complement #2
+void sortPatientQueueByPriority(PatientQueue *q) {
+    if (isPatientQueueEmpty(q) || q->count == 1) {
+        printf("A fila tem 0 ou 1 paciente. Nao e necessario ordenar.\n");
+        return;
+    }
+
+    for (int i = 0; i < q->count - 1; i++) {
+        for (int j = 0; j < q->count - i - 1; j++) {
+            int current_index = (q->front + j) % MAX;
+            int next_index = (q->front + j + 1) % MAX;
+            
+    
+            if (q->patients[current_index].priority < q->patients[next_index].priority) {
+                Patient temp = q->patients[current_index];
+                q->patients[current_index] = q->patients[next_index];
+                q->patients[next_index] = temp;
+            }
+        }
+    }
+
+    printf("A fila de pacientes foi ordenada por prioridade!\n");
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -432,8 +455,9 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                     "\n3. Consultar primeiro paciente da fila"
                     "\n4. Exibir todos os pacientes na fila"
                     "\n5. [Complemento] Buscar paciente por nome ou parte do nome"
-                    "\n6. [Operacao adicional] Contar pacientes em estado critico"
-                    "\n7. Voltar ao menu principal\n"
+                    "\n6. [Complemento] Ordenar por prioridade"
+                    "\n7. [Operacao adicional] Contar pacientes em estado critico"
+                    "\n8. Voltar ao menu principal\n"
                     "\n========================================\n");
 
                     printf("Digite a opcao desejada: ");
@@ -493,11 +517,15 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         break;
                     }
                     case 6: {
+                        sortPatientQueueByPriority(q);
+                        break;
+                    }
+                    case 7: {
                         int criticalCount = countCriticalPatients(q);
                         printf("\nNumero de pacientes no estado critico: %d", criticalCount);
                         break;
                     }
-                    case 7: {
+                    case 8: {
                         printf("Voltando ao menu principal");
                         break;
                     }
@@ -505,7 +533,7 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         printf("Opcao invalida, tente novamente!");
                         break;
                     }
-                }while(queueOption != 7);
+                }while(queueOption != 8);
             break;
             }
 
