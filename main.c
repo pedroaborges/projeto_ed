@@ -390,7 +390,9 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
 
         switch (option)
         {
-        case 1:
+        case 1: {
+            int queueOption;
+            do{
             printf("\n========================================\n");
             printf("\n            FILA DE PACIENTES\n");
             printf("\n========================================\n");
@@ -404,9 +406,9 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                     "\n========================================\n");
 
                     printf("Digite a opcao desejada: ");
-                    scanf("%d", &option);
+                    scanf("%d", &queueOption);
 
-                    switch (option)
+                    switch (queueOption)
                     {
                         case 1: {
                         Patient newPatient;
@@ -457,12 +459,22 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         printf("\nNumero de pacientes no estado critico: %d", criticalCount);
                         break;
                     }
-                    default:
+                    case 6: {
+                        printf("Voltando ao menu principal");
                         break;
                     }
+                    default:
+                        printf("Opcao invalida, tente novamente!");
+                        break;
+                    }
+                }while(queueOption != 6);
             break;
-        
-        case 2:
+            }
+
+        case 2: {
+            int stackOption;
+
+            do{
             printf("\n========================================\n");
             printf("\n          PILHA DE PRONTUARIOS\n");
             printf("\n========================================\n");
@@ -475,9 +487,9 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                     "\n========================================\n");
 
                     printf("Digite a opcao desejada: ");
-                    scanf("%d", &option);
+                    scanf("%d", &stackOption);
 
-                    switch (option)
+                    switch (stackOption)
                     {
                     case 1: {
                         MedicalRecord newRecord;
@@ -526,12 +538,22 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                         reverseMr(s);
                         break;
                     }
-                    default:
+                    case 6: {
+                        printf("Voltando ao menu principal");
                         break;
                     }
+                    default:
+                        printf("Opcao invalida, tente novamente!!");
+                        break;
+                    }
+                }while(stackOption != 6);
 
             break;
-        case 3:
+                }
+        case 3: {
+            int listOption;
+            
+            do{
             printf("\n========================================\n");
             printf("\n            LISTA DE MEDICOS\n");
             printf("\n========================================\n");
@@ -544,9 +566,9 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
                     "\n========================================\n");
 
                     printf("Digite a opcao desejada: ");
-                    scanf("%d", &option);
+                    scanf("%d", &listOption);
 
-                    switch (option)
+                    switch (listOption)
                     {
                     case 1: {
                         Doctor newDoctor;
@@ -605,12 +627,18 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
 
                         break;
                     }
-                    default:
+                    case 6: {
+                        printf("Voltando ao menu");
                         break;
                     }
 
+                    default:
+                        printf("Opcao invalida, tente novamente!!");
+                        break;
+                    }
+                }while(listOption != 6);
             break;
-
+                }            
         default:
             break;
         }
