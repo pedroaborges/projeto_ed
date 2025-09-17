@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>>
+
 #define MAX 100
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -66,6 +69,21 @@ int isPatientQueueEmpty(PatientQueue *q) {
     return (q->count == 0);
 }
 
+// search for a patient with a specific ID
+int searchPatientId(PatientQueue *q, int id) {
+    if (isPatientQueueEmpty(q)) {
+        return 0; 
+    }
+
+    for (int i = 0; i < q->count; i++) {
+        int index = (q->front + i) % MAX;
+        if (q->patients[index].id == id) {
+            return 1; 
+        }
+    }
+    return 0; 
+}
+
 // Verify if is full
 int isPatientQueueFull(PatientQueue *q) {
     return (q->count == MAX);
@@ -75,6 +93,11 @@ int isPatientQueueFull(PatientQueue *q) {
 int insertPatient(PatientQueue *q, Patient p) {
     if (isPatientQueueFull(q)) {
         printf("Erro: fila de pacientes cheia!\n");
+        return 0;
+    }
+
+    if (searchPatientId(q, p.id)) {
+        printf("Erro: Ja existe um paciente com o ID %d na fila.\n", p.id);
         return 0;
     }
     q->patients[q->rear] = p;
@@ -320,7 +343,7 @@ void searchSpecDoctor(DoctorList *list, char *specialty) {
 
 //Functions
 
-void menu(){
+void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
     int option = -1;
 
     do
@@ -359,26 +382,55 @@ void menu(){
 
                     switch (option)
                     {
-                    case 1:
-                        /* code */
-                        break;
+                        case 1: {
+                        Patient newPatient;
 
-                    case 2:
-                        /* code */
-                        break;
+                        printf("\nDigite o ID do paciente: ");
+                        scanf("%d", &newPatient.id);
 
-                    case 3:
-                        /* code */
-                        break;
+                        printf("\nDigite o nome do paciente: ");
+                        scanf(" %[^\n]", newPatient.name);
 
-                    case 4:
-                        /* code */
-                        break;
+                        printf("\nDigite a prioridade do paciente (1. Normal, 2. Medio, 3. Emergencia): ");
+                        scanf("%d", &newPatient.priority);
 
-                    case 5:
-                        /* code */
-                        break;
+                        printf("\nDigite os sintomas do paciente: ");
+                        scanf(" %[^\n]", newPatient.symptoms);
+
+                        if(insertPatient(q, newPatient)){
+                            printf("\nPaciente inserido na fila com sucesso!!");
+                        }
                     
+                        break;
+                    }
+                    case 2: {
+                        Patient servedPatient;
+                        if(servePatient(q, &servedPatient)){
+                            printf("Paciente atendido:\n");
+                            printf("ID: %d | Nome: %s | Prioridade: %d | Sintomas: %s\n",
+                            servedPatient.id, servedPatient.name, servedPatient.priority, servedPatient.symptoms);
+                        }
+                        break;
+                    }
+                    case 3: {
+                        Patient firstPatient;
+
+                        if(consultPatient(q, &firstPatient)){
+                            printf("Paciente atendido:\n");
+                            printf("ID: %d | Nome: %s | Prioridade: %d | Sintomas: %s\n",
+                            firstPatient.id, firstPatient.name, firstPatient.priority, firstPatient.symptoms);
+                        }    
+                        break;
+                    }
+                    case 4: {
+                        displayPatients(q);
+                        break;
+                    }
+                    case 5: {
+                        int criticalCount = countCriticalPatients(q);
+                        printf("\nNumero de pacientes no estado critico: %d", criticalCount);
+                        break;
+                    }
                     default:
                         break;
                     }
@@ -482,5 +534,13 @@ void menu(){
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 int main(){
-    menu();
+    PatientQueue patientQueue;
+    MedicalRecordStack medicalRecordStack;
+    DoctorList doctorList;
+    initializePatientQueue(&patientQueue);
+    initializeMedicalRecordStack(&medicalRecordStack);
+    initializeDoctorList(&doctorList);
+    menu(&patientQueue, &medicalRecordStack, &doctorList);
+
+    return 0;
 }
