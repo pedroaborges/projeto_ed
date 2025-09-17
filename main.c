@@ -272,13 +272,31 @@ void initializeDoctorList(DoctorList *list) {
     list->start = NULL;
 }
 
+// search doctor (id)
+Doctor* searchDoctor(DoctorList *list, int id) {
+    Doctor *current = list->start;
+    while (current != NULL) {
+        if (current->id == id) {
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
 // Insert doctor in the begin
 void insertDoctor(DoctorList *list, Doctor d) {
+
+    if (searchDoctor(list, d.id) != NULL) {
+        printf("Erro: Medico com o ID %d ja existe na lista.\n", d.id);
+        return; // Retorna sem inserir o médico
+    }
+
     Doctor *newDoctor = (Doctor*)malloc(sizeof(Doctor));
     *newDoctor = d;
     newDoctor->next = list->start;
     list->start = newDoctor;
-    printf("Médico inserido com sucesso!\n");
+    printf("Medico inserido com sucesso!\n");
 }
 
 // Remove doctor with id
@@ -292,7 +310,7 @@ int removeDoctor(DoctorList *list, int id) {
     }
 
     if (current == NULL) {
-        printf("Médico com ID %d não encontrado.\n", id);
+        printf("Medico com ID %d não encontrado.\n", id);
         return 0;
     }
 
@@ -303,33 +321,21 @@ int removeDoctor(DoctorList *list, int id) {
     }
 
     free(current);
-    printf("Médico removido com sucesso!\n");
+    printf("Medico removido com sucesso!\n");
     return 1;
-}
-
-// search doctor (id)
-Doctor* searchDoctor(DoctorList *list, int id) {
-    Doctor *current = list->start;
-    while (current != NULL) {
-        if (current->id == id) {
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
 }
 
 // display all doctors
 void displayDoctors(DoctorList *list) {
     if (list->start == NULL) {
-        printf("Nenhum médico cadastrado.\n");
+        printf("Nenhum medico cadastrado.\n");
         return;
     }
 
     printf("\n--- Lista de Médicos ---\n");
     Doctor *current = list->start;
     while (current != NULL) {
-        printf("ID: %d | Nome: %s | Especialidade: %s | Experiência: %d anos\n",
+        printf("ID: %d | Nome: %s | Especialidade: %s | Experiencia: %d anos\n",
                current->id,
                current->name,
                current->specialty,
@@ -344,7 +350,7 @@ void searchSpecDoctor(DoctorList *list, char *specialty) {
     Doctor *current = list->start;
     while (current != NULL) {
         if (strcmp(current->specialty, specialty) == 0) {
-            printf("ID: %d | Nome: %s | Especialidade: %s | Experiência: %d anos\n",
+            printf("ID: %d | Nome: %s | Especialidade: %s | Experiencia: %d anos\n",
                    current->id,
                    current->name,
                    current->specialty,
@@ -542,26 +548,63 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
 
                     switch (option)
                     {
-                    case 1:
-                        /* code */
-                        break;
+                    case 1: {
+                        Doctor newDoctor;
 
-                    case 2:
-                        /* code */
-                        break;
+                        printf("\nDigite o ID do medico: ");
+                        scanf("%d", &newDoctor.id);
 
-                    case 3:
-                        /* code */
-                        break;
+                        printf("\nDigite o nome do medico: ");
+                        scanf(" %[^\n]", newDoctor.name);
 
-                    case 4:
-                        /* code */
-                        break;
+                        printf("\nDigite a especialidade do medico: ");
+                        scanf(" %[^\n]", &newDoctor.specialty);
 
-                    case 5:
-                        /* code */
+                        printf("\nDigite os anos de experiencia do medico: ");
+                        scanf("%d", &newDoctor.experience);
+
+                        insertDoctor(l, newDoctor);
                         break;
-                    
+                    }
+                    case 2: {
+                        int idToRemove;
+
+                        printf("\nDigite o id do medico a ser removido: ");
+                        scanf("%d", &idToRemove);
+
+                        removeDoctor(l, idToRemove);
+                        
+                        break;
+                    }
+                    case 3: {
+                        int idToSearch;
+
+                        printf("Digite o ID do medico a ser consultado: ");
+                        scanf("%d", &idToSearch);
+                        Doctor *foundDoctor = searchDoctor(l, idToSearch);
+                        if (foundDoctor != NULL) {
+                            printf("\nMedico encontrado:\n");
+                            printf("ID: %d | Nome: %s | Especialidade: %s | Experiencia: %d anos\n",
+                                foundDoctor->id, foundDoctor->name, foundDoctor->specialty, foundDoctor->experience);
+                        } else {
+                            printf("Medico com ID %d nao encontrado.\n", idToSearch);
+                        
+                        }
+                        break;
+                    }
+                    case 4: {
+                        displayDoctors(l);   
+                        break;
+                    }
+                    case 5: { 
+                        char searchSpecialty[30];
+                        printf("\nDigite a especialidade do medico a ser consultado: ");
+                        scanf(" %[^\n]", searchSpecialty);
+
+                        searchSpecDoctor(l, searchSpecialty);
+
+                        break;
+                    }
                     default:
                         break;
                     }
