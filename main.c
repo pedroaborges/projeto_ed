@@ -180,12 +180,32 @@ int isMedicalRecordStackFull(MedicalRecordStack *s) {
     return (s->top == MAX - 1);
 }
 
+int searchMrId(MedicalRecordStack *s, int id) {
+    if (isMedicalRecordStackEmpty(s)) {
+        return 0; // The stack is empty, so the ID is not there.
+    }
+    
+    // Iterate through the stack from top to bottom
+    for (int i = s->top; i >= 0; i--) {
+        if (s->records[i].id == id) {
+            return 1; // Found the ID, return true
+        }
+    }
+    return 0; // Did not find the ID, return false
+}
+
 // Insert medical record (push)
 int insertMr(MedicalRecordStack *s, MedicalRecord r) {
     if (isMedicalRecordStackFull(s)) {
-        printf("Erro: pilha de prontuários cheia!\n");
+        printf("Erro: pilha de prontuarios cheia!\n");
         return 0;
     }
+
+    if (searchMrId(s, r.id)) {
+        printf("Erro: Ja existe um prontuario com o ID %d na pilha.\n", r.id);
+        return 0;
+    }
+    
     s->records[++(s->top)] = r;
     return 1;
 }
@@ -193,7 +213,7 @@ int insertMr(MedicalRecordStack *s, MedicalRecord r) {
 // Remove medical record (pop)
 int removeMr(MedicalRecordStack *s, MedicalRecord *r) {
     if (isMedicalRecordStackEmpty(s)) {
-        printf("Erro: pilha de prontuários vazia!\n");
+        printf("Erro: pilha de prontuarios vazia!\n");
         return 0;
     }
     *r = s->records[(s->top)--];
@@ -442,7 +462,7 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
             printf("\n========================================\n");
             printf("\n1. Inserir prontuario (push)"
                     "\n2. Remover prontuario (pop)"
-                    "\n3. Consultar ultimo prontuário (topo da pilha)"
+                    "\n3. Consultar ultimo prontuario (topo da pilha)"
                     "\n4. Exibir todos os prontuarios"
                     "\n5. [Operacao adicional] Inverter ordem da pilha"
                     "\n6. Voltar ao menu principal\n"
@@ -453,26 +473,53 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
 
                     switch (option)
                     {
-                    case 1:
-                        /* code */
-                        break;
+                    case 1: {
+                        MedicalRecord newRecord;
 
-                    case 2:
-                        /* code */
-                        break;
+                        printf("\nDigite o ID do paciente: ");
+                        scanf("%d", &newRecord.id);
 
-                    case 3:
-                        /* code */
-                        break;
+                        printf("\nDigite o nome do paciente: ");
+                        scanf(" %[^\n]", newRecord.patientName);
 
-                    case 4:
-                        /* code */
-                        break;
+                        printf("\nDigite o diagnostico do paciente: ");
+                        scanf(" %[^\n]", &newRecord.diagnosis);
 
-                    case 5:
-                        /* code */
+                        printf("\nDigite o tratamento: ");
+                        scanf(" %[^\n]", newRecord.treatment);
+
+                        if(insertMr(s, newRecord)){
+                            printf("\nProntuario inserido na pilha com sucesso!!");
+                        }
                         break;
-                    
+                    }
+                    case 2: {
+                        MedicalRecord removedMr;
+
+                        if(removeMr(s, &removedMr)){
+                            printf("Prontuario removido:\n");
+                            printf("ID: %d | Nome: %s | Diagnostico: %s | Tratamento: %s\n",
+                            removedMr.id, removedMr.patientName, removedMr.diagnosis, removedMr.treatment);                           
+                        }
+                        break;
+                    }
+                    case 3: {
+                        MedicalRecord topRecord;
+                        if(consultLastMr(s, &topRecord)){
+                            printf("Prontuario que esta no topo:\n");
+                            printf("ID: %d | Nome: %s | Diagnostico: %s | Tratamento: %s\n",
+                            topRecord.id, topRecord.patientName, topRecord.diagnosis, topRecord.treatment);
+                        }
+                        break;
+                    }
+                    case 4: {
+                        displayMr(s);
+                        break;
+                    }    
+                    case 5: {
+                        reverseMr(s);
+                        break;
+                    }
                     default:
                         break;
                     }
