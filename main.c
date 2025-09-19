@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>>
+#include <stdlib.h>
 
 #define MAX 100
 
@@ -40,7 +40,6 @@ typedef struct {
     int count;
 } PatientQueue;
 
-
 typedef struct {
     MedicalRecord records[MAX];
     int top;
@@ -55,21 +54,46 @@ typedef struct {
 //Functions base data structs 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Queue functions
 
-// Initialize the queue
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+* Função: initializePatientQueue
+* Descrição: Inicializa a fila de pacientes, configurando os ponteiros de início e fim e o contador.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes a ser inicializada.
+* Retorna:
+*   void
+*/
 void initializePatientQueue(PatientQueue *q) {
     q->front = 0;
     q->rear = 0;
     q->count = 0;
 }
 
-// Verify if is empty
+/*
+* Função: isPatientQueueEmpty
+* Descrição: Verifica se a fila de pacientes está vazia.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+* Retorna:
+*   1 se a fila estiver vazia, 0 caso contrário.
+*/
 int isPatientQueueEmpty(PatientQueue *q) {
     return (q->count == 0);
 }
 
-// search for a patient with a specific ID
+/*
+* Função: searchPatientId
+* Descrição: Busca um paciente na fila por um ID específico.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+*   id: O ID do paciente a ser buscado.
+* Retorna:
+*   1 se o ID for encontrado, 0 caso contrário.
+*/
 int searchPatientId(PatientQueue *q, int id) {
     if (isPatientQueueEmpty(q)) {
         return 0; 
@@ -84,12 +108,27 @@ int searchPatientId(PatientQueue *q, int id) {
     return 0; 
 }
 
-// Verify if is full
+/*
+* Função: isPatientQueueFull
+* Descrição: Verifica se a fila de pacientes está cheia.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+* Retorna:
+*   1 se a fila estiver cheia, 0 caso contrário.
+*/
 int isPatientQueueFull(PatientQueue *q) {
     return (q->count == MAX);
 }
 
-// Insert patient (enqueue)
+/*
+* Função: insertPatient
+* Descrição: Insere um novo paciente no final da fila.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+*   p: A estrutura Patient contendo os dados do novo paciente.
+* Retorna:
+*   1 se a inserção for bem-sucedida, 0 caso contrário.
+*/
 int insertPatient(PatientQueue *q, Patient p) {
     if (isPatientQueueFull(q)) {
         printf("Erro: fila de pacientes cheia!\n");
@@ -106,7 +145,15 @@ int insertPatient(PatientQueue *q, Patient p) {
     return 1;
 }
 
-// assists patient (dequeue)
+/*
+* Função: servePatient
+* Descrição: Remove o paciente que está no início da fila (atende).
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+*   p: Ponteiro para a estrutura Patient que irá receber os dados do paciente removido.
+* Retorna:
+*   1 se a remoção for bem-sucedida, 0 caso contrário.
+*/
 int servePatient(PatientQueue *q, Patient *p) {
     if (isPatientQueueEmpty(q)) {
         printf("Erro: fila de pacientes vazia!\n");
@@ -118,7 +165,15 @@ int servePatient(PatientQueue *q, Patient *p) {
     return 1;
 }
 
-// Consult first patient
+/*
+* Função: consultPatient
+* Descrição: Consulta os dados do paciente que está no início da fila sem removê-lo.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+*   p: Ponteiro para a estrutura Patient que irá receber os dados do paciente consultado.
+* Retorna:
+*   1 se a consulta for bem-sucedida, 0 caso contrário.
+*/
 int consultPatient(PatientQueue *q, Patient *p) {
     if (isPatientQueueEmpty(q)) {
         printf("Fila de pacientes vazia!\n");
@@ -128,7 +183,14 @@ int consultPatient(PatientQueue *q, Patient *p) {
     return 1;
 }
 
-// display all patients
+/*
+* Função: displayPatients
+* Descrição: Exibe todos os pacientes na fila em ordem de atendimento.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+* Retorna:
+*   void
+*/
 void displayPatients(PatientQueue *q) {
     if (isPatientQueueEmpty(q)) {
         printf("Nenhum paciente na fila.\n");
@@ -146,7 +208,14 @@ void displayPatients(PatientQueue *q) {
     }
 }
 
-// extra: critic patients
+/*
+* Função: countCriticalPatients (FUNCIONALIDADE EXTRA)
+* Descrição: Conta o número de pacientes na fila que estão em estado crítico (prioridade 3).
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+* Retorna:
+*   O número de pacientes com prioridade 3.
+*/
 int countCriticalPatients(PatientQueue *q) {
     if (isPatientQueueEmpty(q)) {
         return 0;
@@ -162,7 +231,15 @@ int countCriticalPatients(PatientQueue *q) {
     return count;
 }
 
-//complement #1
+/*
+* Função: searchPatientByName (COMPLEMENTO)
+* Descrição: Busca um paciente na fila por uma string (nome ou parte do nome).
+* Parâmetros:
+*   q: A fila de pacientes a ser pesquisada.
+*   nameToSearch: A string contendo o nome ou parte do nome a ser buscado.
+* Retorna:
+*   1 se pelo menos um paciente for encontrado, 0 caso contrário.
+*/
 int searchPatientByName(PatientQueue *q, char *nameToSearch) {
     if (isPatientQueueEmpty(q)) {
         printf("Fila de pacientes vazia!\n");
@@ -191,7 +268,14 @@ int searchPatientByName(PatientQueue *q, char *nameToSearch) {
 }
 
 
-//complement #2
+/*
+* Função: sortPatientQueueByPriority (COMPLEMENTO)
+* Descrição: Ordena a fila de pacientes com base na prioridade, colocando os pacientes com maior prioridade primeiro.
+* Parâmetros:
+*   q: A fila de pacientes a ser ordenada.
+* Retorna:
+*   void
+*/
 void sortPatientQueueByPriority(PatientQueue *q) {
     if (isPatientQueueEmpty(q) || q->count == 1) {
         printf("A fila tem 0 ou 1 paciente. Nao e necessario ordenar.\n");
@@ -216,23 +300,56 @@ void sortPatientQueueByPriority(PatientQueue *q) {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // stack functions
 
-// Inicialize stack
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+* Função: initializeMedicalRecordStack
+* Descrição: Inicializa a pilha de prontuários, configurando o ponteiro de topo.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários a ser inicializada.
+* Retorna:
+*   void
+*/
 void initializeMedicalRecordStack(MedicalRecordStack *s) {
     s->top = -1;
 }
 
-// Verify if is empty
+/*
+* Função: isMedicalRecordStackEmpty
+* Descrição: Verifica se a pilha de prontuários está vazia.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+* Retorna:
+*   1 se a pilha estiver vazia, 0 caso contrário.
+*/
 int isMedicalRecordStackEmpty(MedicalRecordStack *s) {
     return (s->top == -1);
 }
 
-// Verifica if is full
+/*
+* Função: isMedicalRecordStackFull
+* Descrição: Verifica se a pilha de prontuários está cheia.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+* Retorna:
+*   1 se a pilha estiver cheia, 0 caso contrário.
+*/
 int isMedicalRecordStackFull(MedicalRecordStack *s) {
     return (s->top == MAX - 1);
 }
 
+/*
+* Função: searchMrId
+* Descrição: Busca um prontuário na pilha por um ID específico.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+*   id: O ID do prontuário a ser buscado.
+* Retorna:
+*   1 se o ID for encontrado, 0 caso contrário.
+*/
 int searchMrId(MedicalRecordStack *s, int id) {
     if (isMedicalRecordStackEmpty(s)) {
         return 0; // The stack is empty, so the ID is not there.
@@ -247,7 +364,15 @@ int searchMrId(MedicalRecordStack *s, int id) {
     return 0; // Did not find the ID, return false
 }
 
-// Insert medical record (push)
+/*
+* Função: insertMr
+* Descrição: Insere um novo prontuário no topo da pilha.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+*   r: A estrutura MedicalRecord contendo os dados do novo prontuário.
+* Retorna:
+*   1 se a inserção for bem-sucedida, 0 caso contrário.
+*/
 int insertMr(MedicalRecordStack *s, MedicalRecord r) {
     if (isMedicalRecordStackFull(s)) {
         printf("Erro: pilha de prontuarios cheia!\n");
@@ -263,7 +388,15 @@ int insertMr(MedicalRecordStack *s, MedicalRecord r) {
     return 1;
 }
 
-// Remove medical record (pop)
+/*
+* Função: removeMr
+* Descrição: Remove o prontuário que está no topo da pilha.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+*   r: Ponteiro para a estrutura MedicalRecord que irá receber os dados do prontuário removido.
+* Retorna:
+*   1 se a remoção for bem-sucedida, 0 caso contrário.
+*/
 int removeMr(MedicalRecordStack *s, MedicalRecord *r) {
     if (isMedicalRecordStackEmpty(s)) {
         printf("Erro: pilha de prontuarios vazia!\n");
@@ -273,7 +406,15 @@ int removeMr(MedicalRecordStack *s, MedicalRecord *r) {
     return 1;
 }
 
-// Consult last medical record (top)
+/*
+* Função: consultLastMr
+* Descrição: Consulta os dados do prontuário que está no topo da pilha sem removê-lo.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+*   r: Ponteiro para a estrutura MedicalRecord que irá receber os dados do prontuário consultado.
+* Retorna:
+*   1 se a consulta for bem-sucedida, 0 caso contrário.
+*/
 int consultLastMr(MedicalRecordStack *s, MedicalRecord *r) {
     if (isMedicalRecordStackEmpty(s)) {
         printf("Nenhum prontuário na pilha!\n");
@@ -283,7 +424,14 @@ int consultLastMr(MedicalRecordStack *s, MedicalRecord *r) {
     return 1;
 }
 
-// display all medical records
+/*
+* Função: displayMr
+* Descrição: Exibe todos os prontuários armazenados na pilha, do topo para a base.
+* Parâmetros:
+*   s: Ponteiro para a pilha de prontuários.
+* Retorna:
+*   void
+*/
 void displayMr(MedicalRecordStack *s) {
     if (isMedicalRecordStackEmpty(s)) {
         printf("Nenhum prontuário armazenado.\n");
@@ -300,7 +448,14 @@ void displayMr(MedicalRecordStack *s) {
     }
 }
 
-// Extra: invert stack
+/*
+* Função: reverseMr (FUNCIONALIDADE EXTRA)
+* Descrição: Inverte a ordem dos prontuários na pilha.
+* Parâmetros:
+*   s: A pilha de prontuários.
+* Retorna:
+*   void
+*/
 void reverseMr(MedicalRecordStack *s) {
     if (isMedicalRecordStackEmpty(s)) {
         printf("A pilha está vazia, não pode ser invertida.\n");
@@ -318,14 +473,32 @@ void reverseMr(MedicalRecordStack *s) {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // list functions
 
-// Inicialize list doctors
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+* Função: initializeDoctorList
+* Descrição: Inicializa a lista de médicos, configurando o ponteiro de início.
+* Parâmetros:
+*   list: Ponteiro para a lista de médicos.
+* Retorna:
+*   void
+*/
 void initializeDoctorList(DoctorList *list) {
     list->start = NULL;
 }
 
-// search doctor (id)
+/*
+* Função: searchDoctor
+* Descrição: Busca um médico na lista por um ID específico.
+* Parâmetros:
+*   list: Ponteiro para a lista de médicos.
+*   id: O ID do médico a ser buscado.
+* Retorna:
+*   Um ponteiro para a estrutura Doctor se o médico for encontrado, NULL caso contrário.
+*/
 Doctor* searchDoctor(DoctorList *list, int id) {
     Doctor *current = list->start;
     while (current != NULL) {
@@ -337,7 +510,15 @@ Doctor* searchDoctor(DoctorList *list, int id) {
     return NULL;
 }
 
-// Insert doctor in the begin
+/*
+* Função: insertDoctor
+* Descrição: Insere um novo médico no início da lista.
+* Parâmetros:
+*   list: Ponteiro para a lista de médicos.
+*   d: A estrutura Doctor contendo os dados do novo médico.
+* Retorna:
+*   void
+*/
 void insertDoctor(DoctorList *list, Doctor d) {
 
     if (searchDoctor(list, d.id) != NULL) {
@@ -352,7 +533,15 @@ void insertDoctor(DoctorList *list, Doctor d) {
     printf("Medico inserido com sucesso!\n");
 }
 
-// Remove doctor with id
+/*
+* Função: removeDoctor
+* Descrição: Remove um médico da lista com base em um ID específico.
+* Parâmetros:
+*   list: Ponteiro para a lista de médicos.
+*   id: O ID do médico a ser removido.
+* Retorna:
+*   1 se a remoção for bem-sucedida, 0 caso contrário.
+*/
 int removeDoctor(DoctorList *list, int id) {
     Doctor *current = list->start;
     Doctor *prev = NULL;
@@ -378,7 +567,14 @@ int removeDoctor(DoctorList *list, int id) {
     return 1;
 }
 
-// display all doctors
+/*
+* Função: displayDoctors
+* Descrição: Exibe todos os médicos cadastrados na lista.
+* Parâmetros:
+*   list: Ponteiro para a lista de médicos.
+* Retorna:
+*   void
+*/
 void displayDoctors(DoctorList *list) {
     if (list->start == NULL) {
         printf("Nenhum medico cadastrado.\n");
@@ -397,7 +593,15 @@ void displayDoctors(DoctorList *list) {
     }
 }
 
-// Extra: search doctor specialty
+/*
+* Função: searchSpecDoctor
+* Descrição: Busca e exibe médicos com uma especialidade específica na lista.
+* Parâmetros:
+*   list: A lista de médicos.
+*   specialty: A string contendo a especialidade a ser buscada.
+* Retorna:
+*   void
+*/
 void searchSpecDoctor(DoctorList *list, char *specialty) {
     int found = 0;
     Doctor *current = list->start;
@@ -420,8 +624,16 @@ void searchSpecDoctor(DoctorList *list, char *specialty) {
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Functions
-
+/*
+* Função: menu
+* Descrição: Exibe o menu principal e gerencia a interação do usuário com as estruturas de dados.
+* Parâmetros:
+*   q: Ponteiro para a fila de pacientes.
+*   s: Ponteiro para a pilha de prontuários.
+*   l: Ponteiro para a lista de médicos.
+* Retorna:
+*   void
+*/
 void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
     int option = -1;
 
@@ -717,6 +929,14 @@ void menu(PatientQueue *q, MedicalRecordStack *s, DoctorList *l){
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
+* Função: main
+* Descrição: Função principal do programa. Inicializa as estruturas de dados e chama a função de menu.
+* Parâmetros:
+*   Nenhum.
+* Retorna:
+*   0 ao finalizar a execução.
+*/
 int main(){
     PatientQueue patientQueue;
     MedicalRecordStack medicalRecordStack;
