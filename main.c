@@ -85,12 +85,13 @@ int searchPatientId(PatientQueue *queue, int id) {
      * Retorna:
      *   1 se o ID for encontrado, 0 caso contrário.
      */
-
+	int i;
+	
     if (isPatientQueueEmpty(queue)) {
         return 0;
     }
 
-    for (int i = 0; i < queue->count; i++) {
+    for (i = 0; i < queue->count; i++) {
         int index = (queue->front + i) % MAX;
 
         if (queue->patients[index].id == id) {
@@ -191,7 +192,8 @@ void displayPatients(PatientQueue *queue) {
      * Retorna:
      *   void
      */
-
+	int i;
+	
     if (isPatientQueueEmpty(queue)) {
         printf("<* Fila de pacientes vazia! *>\n");
         return;
@@ -204,7 +206,7 @@ void displayPatients(PatientQueue *queue) {
         "\n"
     );
 
-    for (int i = 0; i < queue->count; i++) {
+    for (i = 0; i < queue->count; i++) {
         int index = (queue->front + i) % MAX;
 
         printf(
@@ -230,14 +232,15 @@ int countCriticalPatients(PatientQueue *queue) {
      * Retorna:
      *   O número de pacientes com prioridade 3.
      */
-
+	int i;
+	
     if (isPatientQueueEmpty(queue)) {
         return 0;
     }
 
     int count = 0;
 
-    for (int i = 0; i < queue->count; i++) {
+    for (i = 0; i < queue->count; i++) {
         int index = (queue->front + i) % MAX;
 
         if (queue->patients[index].priority == 3) {
@@ -258,7 +261,8 @@ int searchPatientByName(PatientQueue *queue, char *patientName) {
      * Retorna:
      *   1 se pelo menos um paciente for encontrado, 0 caso contrário.
      */
-
+	int i;
+	
     if (isPatientQueueEmpty(queue)) {
         printf("<* Fila de pacientes vazia! *>\n");
         return 0;
@@ -273,7 +277,7 @@ int searchPatientByName(PatientQueue *queue, char *patientName) {
         "\n"
     );
 
-    for (int i = 0; i < queue->count; i++) {
+    for (i = 0; i < queue->count; i++) {
         int index = (queue->front + i) % MAX;
 
         if (strstr(queue->patients[index].name, patientName) != NULL) {
@@ -309,14 +313,15 @@ void sortPatientQueueByPriority(PatientQueue *queue) {
      * Retorna:
      *   void
      */
-
+	int i, j;
+	
     if (isPatientQueueEmpty(queue) || queue->count == 1) {
         printf("<* Nao e necessario ordenar! *>\n");
         return;
     }
 
-    for (int i = 0; i < queue->count - 1; i++) {
-        for (int j = 0; j < queue->count - i - 1; j++) {
+    for (i = 0; i < queue->count - 1; i++) {
+        for (j = 0; j < queue->count - i - 1; j++) {
             int nextIndex = (queue->front + j + 1) % MAX;
             int currentIndex = (queue->front + j) % MAX;
 
@@ -382,12 +387,13 @@ int searchPrescriptionId(PrescriptionStack *stack, int id) {
      * Retorna:
      *   1 se o ID for encontrado, 0 caso contrário.
      */
-
+	int i;
+	
     if (isPrescriptionStackEmpty(stack)) {
         return 0;
     }
 
-    for (int i = stack->top; i >= 0; i--) {
+    for (i = stack->top; i >= 0; i--) {
         if (stack->records[i].id == id) {
             return 1;
         }
@@ -470,7 +476,8 @@ void displayPrescription(PrescriptionStack *stack) {
      * Retorna:
      *   void
      */
-
+	int i;
+	
     if (isPrescriptionStackEmpty(stack)) {
         printf("<* Nenhum prontuario cadastrado! *>\n");
         return;
@@ -483,9 +490,9 @@ void displayPrescription(PrescriptionStack *stack) {
         "\n"
     );
 
-    for (int i = stack->top; i >= 0; i--) {
+    for (i = stack->top; i >= 0; i--) {
         printf(
-            "\nMedico %s:"
+            "\nProntuario:"
             "\nID: %d"
             "\nPaciente: %s"
             "\nDiagnostico: %d"
@@ -951,7 +958,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             if(removePrescription(stack, &removedPrescription)){
                                 printf(
                                     "\n+----------------------------+"
-                                    "\n|          DELEÇÃO           |"
+                                    "\n|          DELECAO           |"
                                     "\n+----------------------------+"
                                     "\n"
                                     "\nProntuario removido:"
@@ -1072,7 +1079,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
 
                             printf(
                                 "\n+----------------------------+"
-                                "\n|          DELEÇÃO           |"
+                                "\n|          DELECAO           |"
                                 "\n+----------------------------+"
                                 "\n"
                                 "\nID >> "
