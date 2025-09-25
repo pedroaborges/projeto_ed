@@ -126,12 +126,12 @@ int insertPatient(PatientQueue *queue, Patient patient) {
      */
 
     if (isPatientQueueFull(queue)) {
-        printf("<* Fila de pacientes cheia! *>\n");
+        printf("\n<* Fila de pacientes cheia! *>\n");
         return 0;
     }
 
     if (searchPatientId(queue, patient.id)) {
-        printf("<* Paciente ja existente! *>\n");
+        printf("\n<* Paciente ja existente! *>\n");
         return 0;
     }
 
@@ -153,7 +153,7 @@ int attendPatient(PatientQueue *queue, Patient *patient) {
      */
 
     if (isPatientQueueEmpty(queue)) {
-        printf("<* Fila de pacientes vazia! *>\n");
+        printf("\n<* Fila de pacientes vazia! *>\n");
         return 0;
     }
 
@@ -175,7 +175,7 @@ int consultPatient(PatientQueue *queue, Patient *patient) {
      */
 
     if (isPatientQueueEmpty(queue)) {
-        printf("<* Fila de pacientes vazia! *>\n");
+        printf("\n<* Fila de pacientes vazia! *>\n");
         return 0;
     }
 
@@ -195,7 +195,7 @@ void displayPatients(PatientQueue *queue) {
 	int i;
 	
     if (isPatientQueueEmpty(queue)) {
-        printf("<* Fila de pacientes vazia! *>\n");
+        printf("\n<* Fila de pacientes vazia! *>\n");
         return;
     }
 
@@ -298,7 +298,7 @@ int searchPatientByName(PatientQueue *queue, char *patientName) {
     }
 
     if (!found) {
-        printf("<* Nenhum paciente encontrado! *>\n");
+        printf("\n<* Nenhum paciente encontrado! *>\n");
     }
 
     return found;
@@ -316,7 +316,7 @@ void sortPatientQueueByPriority(PatientQueue *queue) {
 	int i, j;
 	
     if (isPatientQueueEmpty(queue) || queue->count == 1) {
-        printf("<* Nao e necessario ordenar! *>\n");
+        printf("\n<* Nao e necessario ordenar! *>\n");
         return;
     }
 
@@ -343,7 +343,7 @@ void initializePrescriptionStack(PrescriptionStack *stack) {
      * Função: initializePrescriptionStack
      * Descrição: Inicializa a pilha de prontuários, configurando o ponteiro de topo.
      * Parâmetros:
-     *   s: Ponteiro para a pilha de prontuários a ser inicializada.
+     *   stack: Ponteiro para a pilha de prontuários a ser inicializada.
      * Retorna:
      *   void
      */
@@ -414,12 +414,12 @@ int insertPrescription(PrescriptionStack *stack, Prescription prescription) {
      */
 
     if (isPrescriptionStackFull(stack)) {
-        printf("<* Pilha de prontuarios cheia! *>\n");
+        printf("\n<* Pilha de prontuarios cheia! *>\n");
         return 0;
     }
 
     if (searchPrescriptionId(stack, prescription.id)) {
-        printf("<* Prontuario ja existente! *>\n");
+        printf("\n<* Prontuario ja existente! *>\n");
         return 0;
     }
 
@@ -439,7 +439,7 @@ int removePrescription(PrescriptionStack *stack, Prescription *prescription) {
      */
 
     if (isPrescriptionStackEmpty(stack)) {
-        printf("<* Nenhum prontuario cadastrado! *>\n");
+        printf("\n<* Nenhum prontuario cadastrado! *>\n");
         return 0;
     }
 
@@ -459,7 +459,7 @@ int consultLastPrescription(PrescriptionStack *stack, Prescription *prescription
      */
 
     if (isPrescriptionStackEmpty(stack)) {
-        printf("<* Nenhum prontuario encontrado! *>\n");
+        printf("\n<* Nenhum prontuario encontrado! *>\n");
         return 0;
     }
 
@@ -479,7 +479,7 @@ void displayPrescription(PrescriptionStack *stack) {
 	int i;
 	
     if (isPrescriptionStackEmpty(stack)) {
-        printf("<* Nenhum prontuario cadastrado! *>\n");
+        printf("\n<* Nenhum prontuario cadastrado! *>\n");
         return;
     }
 
@@ -517,7 +517,7 @@ void reversePrescription(PrescriptionStack *stack) {
      */
 
     if (isPrescriptionStackEmpty(stack)) {
-        printf("<* A pilha esta vazia! *>\n");
+        printf("\n<* A pilha esta vazia! *>\n");
         return;
     }
 
@@ -531,7 +531,7 @@ void reversePrescription(PrescriptionStack *stack) {
         j--;
     }
 
-    printf("<* A pilha foi invertida! *>\n");
+    printf("\n<* A pilha foi invertida! *>\n");
 }
 
 // Definição das funções da lista de médicos
@@ -584,7 +584,7 @@ void insertDoctor(DoctorList *list, Doctor doctor) {
      */
 
     if (searchDoctor(list, doctor.id) != NULL) {
-        printf("<* Medico ja existente! *>\n");
+        printf("\n<* Medico ja existente! *>\n");
         return;
     }
 
@@ -593,7 +593,7 @@ void insertDoctor(DoctorList *list, Doctor doctor) {
     newDoctor->next = list->start;
     list->start = newDoctor;
 
-    printf("<* Medico inserido com sucesso! *>\n");
+    printf("\n<* Medico inserido com sucesso! *>\n");
 }
 
 int removeDoctor(DoctorList *list, int id) {
@@ -616,7 +616,7 @@ int removeDoctor(DoctorList *list, int id) {
     }
 
     if (current == NULL) {
-        printf("<* Medico nao econtrado! *>\n");
+        printf("\n<* Medico nao econtrado! *>\n");
         return 0;
     }
 
@@ -628,7 +628,7 @@ int removeDoctor(DoctorList *list, int id) {
 
     free(current);
 
-    printf("<* Medico removido com sucesso! *>\n");
+    printf("\n<* Medico removido com sucesso! *>\n");
     return 1;
 }
 
@@ -643,7 +643,7 @@ void displayDoctors(DoctorList *list) {
      */
 
     if (list->start == NULL) {
-        printf("<* Nenhum medico cadastrado! *>\n");
+        printf("\n<* Nenhum medico cadastrado! *>\n");
         return;
     }
 
@@ -713,7 +713,7 @@ void searchSpecialtyDoctor(DoctorList *list, char *specialty) {
     }
 
     if (!found) {
-        printf("<* Medico nao econtrado! *>\n");
+        printf("\n<* Medico nao econtrado! *>\n");
     }
 }
 
@@ -801,7 +801,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             scanf(" %[^\n]", newPatient.symptoms);
 
                             if(insertPatient(queue, newPatient)){
-                                printf("<* Paciente inserido com sucesso! *>\n");
+                                printf("\n<* Paciente inserido com sucesso! *>\n");
                             }
 
                             break;
@@ -901,7 +901,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             break;
                         }
                     default:
-                        printf("<* Operacao invalida! *>\n");
+                        printf("\n<* Operacao invalida! *>\n");
 
                         break;
                     }
@@ -947,7 +947,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             scanf(" %[^\n]", newPrescription.treatment);
 
                             if(insertPrescription(stack, newPrescription)){
-                                printf("<* Prontuario inserido com sucesso! *>\n");
+                                printf("\n<* Prontuario inserido com sucesso! *>\n");
                             }
 
                             break;
@@ -1017,7 +1017,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             break;
                         }
                     default:
-                        printf("<* Operacao invalida! *>\n");
+                        printf("\n<* Operacao invalida! *>\n");
 
                         break;
                     }
@@ -1121,7 +1121,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                                     foundDoctor->experience
                                 );
                             } else {
-                                printf("<* Medico nao encontrado! *>\n");
+                                printf("\n<* Medico nao encontrado! *>\n");
                             }
 
                             break;
@@ -1156,7 +1156,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             break;
                         }
                         default:
-                            printf("<* Operacao invalida! *>\n");
+                            printf("\n<* Operacao invalida! *>\n");
 
                             break;
                         }
