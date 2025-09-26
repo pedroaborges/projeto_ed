@@ -964,7 +964,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                                     "\nProntuario removido:"
                                     "\nID: %d"
                                     "\nNome: %s"
-                                    "\nDiagnostico: %d"
+                                    "\nDiagnostico: %s"
                                     "\nTratamento: %s",
                                     removedPrescription.id,
                                     removedPrescription.patientName,
@@ -987,7 +987,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                                     "\nProntuario no topo"
                                     "\nID: %d"
                                     "\nNome: %s"
-                                    "\nPrioridade: %d"
+                                    "\nDiagnostico: %s"
                                     "\nSintomas: %s",
                                     topPrescription.id,
                                     topPrescription.patientName,
@@ -1067,7 +1067,7 @@ void menu(PatientQueue *queue, PrescriptionStack *stack, DoctorList *list){
                             printf("Especialidade >> ");
                             scanf(" %[^\n]", newDoctor.specialty);
 
-                            printf("Experiencia >> ");
+                            printf("Experiencia (Anos)>> ");
                             scanf("%d", &newDoctor.experience);
 
                             insertDoctor(list, newDoctor);
