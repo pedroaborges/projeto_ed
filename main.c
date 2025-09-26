@@ -225,7 +225,7 @@ void displayPatients(PatientQueue *queue) {
 
 int countCriticalPatients(PatientQueue *queue) {
     /*
-     * Função: countCriticalPatients (COMPLEMENTO)
+     * Função: countCriticalPatients (ADICIONAL)
      * Descrição: Conta o número de pacientes na fila que estão em estado crítico (prioridade 3).
      * Parâmetros:
      *   queue: Ponteiro para a fila de pacientes.
@@ -508,7 +508,7 @@ void displayPrescription(PrescriptionStack *stack) {
 
 void reversePrescription(PrescriptionStack *stack) {
     /*
-     * Função: reversePrescription (COMPLEMENTO)
+     * Função: reversePrescription (ADICIONAL)
      * Descrição: Inverte a ordem dos prontuários na pilha.
      * Parâmetros:
      *   stack: A pilha de prontuários.
@@ -675,7 +675,7 @@ void displayDoctors(DoctorList *list) {
 
 void searchSpecialtyDoctor(DoctorList *list, char *specialty) {
     /*
-     * Função: searchSpecialtyDoctor
+     * Função: searchSpecialtyDoctor (ADICIONAL)
      * Descrição: Busca e exibe médicos com uma especialidade específica na lista.
      * Parâmetros:
      *   list: A lista de médicos.
