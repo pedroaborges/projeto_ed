@@ -495,7 +495,7 @@ void displayPrescription(PrescriptionStack *stack) {
             "\nProntuario:"
             "\nID: %d"
             "\nPaciente: %s"
-            "\nDiagnostico: %d"
+            "\nDiagnostico: %s"
             "\nTratamento: %s"
             "\n",
             stack->records[i].id,
